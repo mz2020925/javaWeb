@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎注册</title>
+    <link href="css/register.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="form-div">
+    <div class="reg-content">
+        <h1>欢迎注册</h1>
+        <span>已有帐号？</span> <a href="login.html">登录</a>
+    </div>
+    <form id="reg-form" action="#" method="get">
+        <table>
+            <tr>
+                <td>用户名</td>
+                <td class="inputs">
+                    <input name="username" type="text" id="username">
+                    <br>
+                    <span id="username_err" class="err_msg" style="display: none">用户名已存在</span>
+                </td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td class="inputs">
+                    <input name="password" type="password" id="password">
+                    <br>
+                    <span id="password_err" class="err_msg" style="display: none">密码格式有误</span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>验证码</td>
+                <td class="inputs">
+                    <input name="checkCode" type="text" id="checkCode">
+                    <img src="imgs/a.jpg">
+                    <a href="#" id="changeImg">看不清？</a>
+                </td>
+            </tr>
+
+        </table>
+        <div class="buttons">
+            <input value="注 册" type="submit" id="reg_btn">
+        </div>
+        <br class="clear">
+    </form>
+</div>
+
+<script>
+    // 通过javascript代码实现，用户名输入框绑定失去焦点的功能
+    document.getElementById("username").onblur = function () {
+        // 当用户失去焦点的时候，执行这个函数体，也就是发送Ajax请求
+        var username = this.value;
+        // 1.创建 XMLHttpRequest 对象
+        var xmlhttp;
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        // 2.向服务器发送请求
+        xmlhttp.open("GET", "http://localhost:80/selectUserServlet?username="+username, true);
+        xmlhttp.send();
+
+        // 3.获取返回的响应
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                // document.getElementById("myDiv").innerHTML = xmlhttp.responseText;  // 这句代码是数目意思
+                if(xmlhttp.responseText == "true"){
+                    // 用户名存在，显示提示信息
+                    document.getElementById("username_err").style.display = ''
+                }else {
+                    // 用户名不存在，清除提示信息
+                    document.getElementById("username_err").style.display = 'none'
+                }
+            }
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

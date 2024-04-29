@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加品牌</title>
+</head>
+<body>
+<h3>添加品牌</h3>
+<form action="" method="post">
+    品牌名称：<input id="brandName" name="brandName"><br>
+    企业名称：<input id="companyName" name="companyName"><br>
+    排序：<input id="ordered" name="ordered"><br>
+    描述信息：<textarea rows="5" cols="20" id="description" name="description"></textarea><br>
+    状态：
+    <input type="radio" name="status" value="0">禁用
+    <input type="radio" name="status" value="1">启用<br>
+
+    <input type="button" id="btn"  value="提交">
+</form>
+<script>
+    // 1.给按钮绑定单击事件
+    document.getElementById("btn").onclick = function () {
+        // 将表单数据转换为Json
+        let formData = {
+            branName: "",
+            companyName: "",
+            ordered: "",
+            description: "",
+            status: ""
+        };
+        formData.branName = document.getElementById("brandName").value;
+        formData.companyName = document.getElementById("companyName").value;
+        formData.ordered = document.getElementById("ordered").value;
+        formData.description = document.getElementById("description").value;
+        let status = document.getElementsByName("status");
+        for (let i = 0;i < status.length; i++){
+            if (status[i].checked){
+                formData.status = status[i].value;
+            }
+        }
+
+        // 2.发送ajax请求
+        axios({
+            method: "post",
+            url: "http://localhost:80/add-user",
+            data: formData
+        }).then(function (get_resp) {
+            // 判断返回的响应是否为"success"
+            if (get_resp.data == "success"){
+                location.href = "http://localhost:80/brand.html";
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+    environments：配置数据库连接环境信息。可以配置多个environment，通过default属性切换不同的
+    environment
+    -->
+    <environments default="mybatis">
+        <!-- 默认连接mybatis数据库-->
+        <environment id="mybatis">
+            <transactionManager type="JDBC"/><!--事务管理方式：谁来管理MySQL事务-->
+            <dataSource type="POOLED"><!--数据库连接池，"POOLED"是MyBatis中默认的数据库连接池-->
+                <!--数据库连接信息-->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://39.101.74.139:3306/db1?useSSL=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="zmz"/>
+                <property name="password" value="Root_1234"/>
+            </dataSource>
+        </environment>
+        <!-- 也可以选择连接其他数据库，例如db_remote-->
+        <environment id="db_remote">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--数据库连接信息-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://192.168.23.128:3306/db_remote"/>
+                <property name="username" value="remote"/>
+                <property name="password" value="1"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <mappers>
+        <!--加载sql映射文件(方式1)-->
+        <!--sql映射文件就是为了解决 JDBC中直接编写SQL命令的繁琐-->
+        <!--什么是sql映射文件？
+            就是把jdbc语句封装在sql映射文件中，怎么叫封装？
+            把jdbc语句放在
+            <select id="selectAll" resultType="com.itheima.poro.User">
+                select * from tb_user;
+            </select>
+            中，就把select * from tb_user;封装为一个Mapper类性的select行为（类似方法/函数）。这个select行为叫做selectAll(就是id)，
+            这个行为的返回值是com.itheima.poro.User类型。
+        -->
+        <mapper resource="UserMapper.xml"/>
+
+
+        <!--加载sql映射文件(方式2)-->
+        <!--当使用Mapper代理开发方式，来执行jdbc语句进行数据库操作时(如mybatisDemo2)，有一种简单的加载sql映射文件的方式
+        叫做 包扫描 的方式，其实在这个mybatis配置文件中的<mappers></mappers>(mappers翻译成多个映射)的作用就是找到UserMapper.xml这个Mapper(xml)文件-->
+        <!--sql映射文件的名字UserMapper.xml(可以理解为数据库里面每张表对应一个映射文件)，取的时候要注意，这个sql映射文件封装的是操作哪个表的jdbcSQL命令，就以那个表来取名字-->
+        <!--<package name="com.itheima.mapper"/>-->
+    </mappers>
+</configuration>

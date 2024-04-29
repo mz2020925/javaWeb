@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:名称空间-->
+<mapper namespace="com.itheima.mapper.BrandMapper">
+    <!--下面的三段代码就是为了得到SQL命令：delete from tb_brand where id in (1,2,3...); -->
+
+    <!--
+    mybatis会将数组参数，整体封装只有一个键值对的Map集合，这个键值对的 值 就是数组。
+    在啥时候封装？在调用接口BrandMapper中的方法deleteByIds()时就对传递进来的数组进行封装。
+    如果方法deleteByIds()是这种形式：void deleteByIds(@Param("ids") int[] ids);，意味着 键 被设置为"ids"，值 被设置为int[] ids。
+    如果方法deleteByIds()是这种形式：void deleteByIds(int[] ids);，意味着 键 被设置为默认"array"，值 被设置为int[] ids。
+    -->
+
+    <!--1.方法deleteByIds()是这种形式：void deleteByIds(int[] ids);
+    <foreach collection="array" item="id" separator=",">就是选择 键 为"array" 的 值(是一个数组) ，
+    遍历这个数组，遍历变量是"id"，把得到的数组元素以逗号分隔打印，前后已经写好左右括号了。
+    -->
+    <delete id="deleteByIds">
+        delete from tb_brand where id
+        in (
+        <foreach collection="array" item="id" separator=",">
+            #{id}
+        </foreach>
+            );
+    </delete>
+
+    <!--2.
+    把左右括号放到foreach标签里面-->
+    <delete id="deleteByIds">
+        delete from tb_brand where id
+        in
+        <foreach collection="array" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        ;
+    </delete>
+
+    <!--3.方法deleteByIds()是这种形式：void deleteByIds(@Param("ids") int[] ids);
+    <foreach collection="ids" item="id" separator=",">就是选择 键 为"ids" 的 值(是一个数组) ，
+    遍历这个数组，遍历变量是"id"，把得到的数组元素以逗号分隔打印，左右括号放到foreach标签里面。
+    -->
+    <delete id="deleteByIds">
+        delete from tb_brand where id
+        in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        ;
+    </delete>
+
+</mapper>

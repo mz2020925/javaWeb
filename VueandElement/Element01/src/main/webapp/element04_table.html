@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div id="app">
+    <template>
+
+        <!--下面是表格的代码-->
+        <el-table
+                :data="tableData"
+                stripe
+                style="width: 100%"
+                @selection-change="handleSelectionChange">
+            <el-table-column
+                    type="selection"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="50">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="姓名"
+                    align="center">
+            </el-table-column>
+
+            <el-table-column
+                    prop="studentId"
+                    label="学号"
+                    align="center">
+            </el-table-column>
+
+            <el-table-column
+                    prop="school"
+                    label="学院"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+            align="center"
+            label="操作">
+                <el-row>
+                    <el-button type="primary" plain>修改</el-button>
+                    <el-button type="danger" plain>删除</el-button>
+                </el-row>
+            </el-table-column>
+        </el-table>
+    </template>
+</div>
+
+
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                tableData: [{
+                    name: '张明志',
+                    studentId: '202222100119',
+                    school: '航空航天学院'
+                }, {
+                    name: '张明志',
+                    studentId: '202222100119',
+                    school: '航空航天学院'
+                }, {
+                    name: '张明志',
+                    studentId: '202222100119',
+                    school: '航空航天学院'
+                }, {
+                    name: '张明志',
+                    studentId: '202222100119',
+                    school: '航空航天学院'
+                }],
+                multipleSelection:[]
+            }
+        },
+        methods:{
+            //复选框选中后执行该方法
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                console.log(this.multipleSelection)
+            }
+        }
+
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue01_quickstart</title>
+</head>
+<body>
+<div id="app">
+    <input v-model="name">
+    <!--用插值表达式来完成绑定-->
+    {{name}}
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                name:"zmz"
+            }
+        }
+        /*data: function () {
+           return {
+               username:""
+           }
+       }*/
+    });
+
+</script>
+
+</body>
+</html>

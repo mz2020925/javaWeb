@@ -1,0 +1,18 @@
+server:
+  port: 80
+
+spring:
+  redis:
+    host: 172.25.131.103
+    port: 6379
+    password: Root_1234
+    lettuce:
+      pool:
+        max-active: 8  #最大连接
+        max-idle: 8   #最大空闲连接
+        min-idle: 0   #最小空闲连接
+        max-wait: 100ms #连接等待时间
+    database: 15
+
+
+

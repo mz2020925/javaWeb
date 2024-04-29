@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--当使用包扫描的方式，取别名可以加快类的寻找，这里这样写之后，UserMapper.xml中的resultType="com.itheima.pojo.User"
+    就可以简写成resultType="User"或者resultType="user"，因为此时大小写都不区分，"user"可以自动匹配到pojo下的User类。
+    这里这句代码发挥作用是在加载UserMapper.xml的过程中，下面的包扫描方式发挥作用是在寻找UserMapper.xml的过程中，
+    前者是找到文件后，为了在加载UserMapper.xml过程中，加快寻找“标签”中的resultType=""在哪儿，后者是为了找到UserMapper.xml文件在哪儿。
+    简而言之就是写了下面的代码，表映射文件(SQL映射文件)中“标签”的resultType=""就可以不写全限定名了，只写一个类名就可以了，而且类名也不用区分大小写了。
+    -->
+    <typeAliases>
+        <package name="com.itheima.pojo"/>
+    </typeAliases>
+
+    <!--当使用使用包扫描的方式，取别名可以加快类的寻找。
+    除此之外也可以一个一个的把类路径”取别名“-->
+    <!--<typeAliases>
+        <typeAlias type="com.itheima.pojo.User" alias="User"/>
+    </typeAliases>-->
+
+    <!--
+    environments：配置数据库连接环境信息。可以配置多个environment，通过default属性切换不同的
+    environment
+    -->
+    <environments default="mybatis">
+        <!-- 默认连接mybatis数据库-->
+        <environment id="mybatis">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--数据库连接信息-->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://39.101.74.139:3306/db1?useSSL=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="zmz"/>
+                <property name="password" value="Root_1234"/>
+            </dataSource>
+        </environment>
+        <!-- 也可以选择连接其他数据库，例如db_remote-->
+        <environment id="db_remote">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--数据库连接信息-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://192.168.23.128:3306/db_remote"/>
+                <property name="username" value="remote"/>
+                <property name="password" value="1"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <mappers>
+        <!--包扫描加载sql映射文件(方式2)-->
+        <!--当使用Mapper代理开发方式，来执行jdbc语句进行数据库操作时(如mybatisDemo2)，有一种简单的加载sql映射文件的方式
+        叫做 包扫描 的方式，其实在这个mybatis配置文件中的<mappers></mappers>(mappers翻译成多个映射)的作用就是找到UserMapper.xml这个Mapper(xml)文件-->
+        <!--sql映射文件的名字UserMapper.xml(可以理解为数据库里面每张表对应一个映射文件)，取的时候要注意，这个sql映射文件封装的是操作哪个表的jdbcSQL命令，就以那个表来取名字-->
+        <package name="com.itheima.mapper"/>
+    </mappers>
+</configuration>

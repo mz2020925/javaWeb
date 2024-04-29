@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:名称空间-->
+<mapper namespace="com.itheima.mapper.BrandMapper">
+    <resultMap id="brandResultMap" type="brand">
+        <result column="brand_name" property="brandName"/>
+        <result column="company_name" property="companyName"/>
+    </resultMap>
+
+    <!--动态单条件查询-->
+    <!--
+    和前面的动态多条件查询的区别在于：多条件的动态体现在：2个条件、或3个条件、...条件数量不确定。用的是select+where+if标签实现
+    这里的单条件动态体现在：1个条件，这个条件是什么不确定。用的是select+where+choose+when实现，当使用where标签时，就不需要otherwise标签和SQL命令的where关键字了
+
+    -->
+    <select id="selectByConditionSingle" resultMap="brandResultMap">
+        select *
+        from tb_brand
+        <where>
+            <choose><!--相当于switch-->
+                <when test="status != null"><!--相当于case-->
+                    status = #{status}
+                </when>
+                <when test="companyName != null and companyName != '' "><!--相当于case-->
+                    company_name like #{companyName}
+                </when>
+                <when test="brandName != null and brandName != ''"><!--相当于case-->
+                    brand_name like #{brandName}
+                </when>
+            </choose>
+        </where>
+    </select>
+</mapper>

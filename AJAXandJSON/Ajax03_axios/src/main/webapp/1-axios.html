@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    /* {...} 表示JavaScript对象*/
+    // axios({
+    //     method: "get",
+    //     url: "http://localhost:80/axios-servlet?username=张三"
+    // }).then(function (get_resp) {
+    //     alert(get_resp.data)
+    // })
+
+    // axios({
+    //     method: "post",
+    //     url: "http://localhost:80/axios-servlet",
+    //     data: "username=张三"
+    // }).then(function (get_resp) {
+    //     alert(get_resp.data)
+    // })
+
+    // 另一种写法，例子如下
+    axios.post("http://localhost:80/axios-servlet", "username=张三").then(function (get_resp) {
+        alert(get_resp.data)
+    })
+
+
+
+</script>
+
+</body>
+</html>

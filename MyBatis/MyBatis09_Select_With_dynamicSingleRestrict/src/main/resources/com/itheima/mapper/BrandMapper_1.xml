@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:名称空间-->
+<mapper namespace="com.itheima.mapper.BrandMapper">
+    <resultMap id="brandResultMap" type="brand">
+        <result column="brand_name" property="brandName"/>
+        <result column="company_name" property="companyName"/>
+    </resultMap>
+
+    <!--动态单条件查询-->
+    <select id="selectByConditionSingle" resultMap="brandResultMap">
+        select *
+        from tb_brand
+        where
+        <choose><!--相当于switch-->
+            <when test="status != null"><!--相当于case-->
+                status = #{status}
+            </when>
+
+            <when test="companyName != null and companyName != '' "><!--相当于case-->
+                company_name like #{companyName}
+            </when>
+
+            <when test="brandName != null and brandName != ''"><!--相当于case-->
+                brand_name like #{brandName}
+            </when>
+
+            <otherwise>
+                1 = 1
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--把choose用where包裹起来，就不用再写otherwise了-->
+    <select id="selectByConditionSingle" resultMap="brandResultMap">
+        select *
+        from tb_brand
+        <where>
+            <choose><!--相当于switch-->
+                <when test="status != null"><!--相当于case-->
+                    status = #{status}
+                </when>
+                <when test="companyName != null and companyName != '' "><!--相当于case-->
+                    company_name like #{companyName}
+                </when>
+                <when test="brandName != null and brandName != ''"><!--相当于case-->
+                    brand_name like #{brandName}
+                </when>
+
+            </choose>
+        </where>
+    </select>
+</mapper>

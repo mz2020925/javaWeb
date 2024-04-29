@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>series</title>
+</head>
+<body>
+<div id="series">
+    <div style="margin: 20px 0;"></div>
+    <el-form :inline="true" v-bind:model="inputRegister" class="demo-form-inline">
+        <el-form-item label="移位寄存器阶数">
+            <el-input v-model="inputRegister.order"></el-input>
+        </el-form-item>
+        <el-form-item label="寄存器初值">
+            <el-input v-model="inputRegister.origin"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" v-on:click="return_series()">提交</el-button>
+        </el-form-item>
+    </el-form>
+    <!--<hr width="750px" align="left" size="3px" color="grey">-->
+    <div style="margin: 20px 0;"></div>
+
+    <el-form v-bind:model="outputRegister">
+        <el-form-item label="多项式系数：">
+            <el-input
+                    type="textarea"
+                    autosize
+                    v-model="outputRegister.coefficient">
+            </el-input>
+        </el-form-item>
+    </el-form>
+
+    <div style="margin: 20px 0;"></div>
+    <el-form v-bind:model="outputRegister">
+        <el-form-item label="m-序列：">
+            <el-input
+                    type="textarea"
+                    autosize
+                    v-model="outputRegister.m_series">
+            </el-input>
+        </el-form-item>
+    </el-form>
+
+    <div style="margin: 20px 0;"></div>
+    <el-row>
+        <el-button type="primary" onclick="window.open('http://39.101.74.139:80/members.html')">
+            小组成员
+        </el-button>
+    </el-row>
+</div>
+
+
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    new Vue({
+        el:"#series",
+        data(){
+            return{
+                inputRegister:{
+                    order:'',
+                    origin:''
+                },
+                outputRegister:{
+                    coefficient:'',
+                    m_series:''
+                },
+
+                rootUrl: "http://39.101.74.139:80/series"
+            }
+        },
+
+        methods:{
+            return_series(){
+                var _this=this;
+                console.log(_this.inputRegister.origin.length);
+                console.log(parseInt(_this.inputRegister.order));
+                if (_this.inputRegister.origin.length!==parseInt(_this.inputRegister.order)){
+                    _this.$message.error("输入数据有误！");
+                    return;
+                }
+
+                axios({
+                    method:"post",
+                    url:_this.rootUrl,
+                    data:_this.inputRegister
+                }).then(function (resp){
+                    // 将结果展示在文本域
+                    _this.outputRegister=resp.data.data;
+                })
+            },
+
+        }
+
+    })
+
+</script>
+
+</body>
+</html>

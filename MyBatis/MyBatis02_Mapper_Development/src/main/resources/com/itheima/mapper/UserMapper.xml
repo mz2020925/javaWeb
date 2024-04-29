@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.mapper.UserMapper">
+    <!--namespace="UserMapper"必写。namespace叫做名称空间
+    而且必须设置SQL映射文件（就是本文件）的namespace属性为Mapper接口全限定名“com.itheima.mapper.UserMapper”
+    写成全限定名的作用是防止不同的类中右同名的方法、变量，当类调用方法时会不知道调用哪个类中的方法。
+    -->
+
+    <select id="selectAll" resultType="com.itheima.pojo.User">
+        select * from tb_user;
+    </select>
+</mapper>
